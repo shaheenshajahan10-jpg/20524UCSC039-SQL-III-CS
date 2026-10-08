@@ -1,0 +1,23 @@
+create table products (
+    product_id number primary key,
+    stock_code varchar2(20) unique not null,
+    product_name varchar2(100) not null,
+    unit_price number(10,2) check (unit_price >= 0),
+    stock_quantity number check (stock_quantity >= 0)
+);
+create table customers (
+    customer_id number primary key,
+    customer_name varchar2(100) not null,
+    country varchar2(50)
+);
+create table orders (
+    order_id number primary key,
+    invoice_no varchar2(20) not null,
+    product_id number,
+    customer_id number,
+    quantity number check (quantity > 0),
+    order_date date,
+    order_status varchar2(20) default 'PLACED',
+    foreign key (product_id) references products(product_id),
+    foreign key (customer_id) references customers(customer_id)
+);
