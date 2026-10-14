@@ -1,0 +1,8 @@
+select
+    o.order_id,
+    p.product_name,
+    o.quantity,
+    p.unit_price
+from orders o
+join products p
+on o.product_id = p.product_id;
