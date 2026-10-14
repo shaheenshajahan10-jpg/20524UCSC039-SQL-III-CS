@@ -1,0 +1,30 @@
+create or replace procedure update_inventory(
+ p_product_id number,
+ p_quantity number
+)
+is
+ v_stock number;
+begin
+ select stock_quantity
+ into v_stock
+ from products
+ where product_id = p_product_id;
+ if p_quantity <= 0 then
+ raise_application_error(-20002,
+ 'quantity must be greater than zero');
+ end if;
+ if v_stock < p_quantity then
+ raise_application_error(-20001,
+ 'insufficient stock');
+ end if;
+ update products
+ set stock_quantity = stock_quantity - p_quantity
+ where product_id = p_product_id;
+ dbms_output.put_line('inventory updated successfully');
+exception
+ when no_data_found then
+ dbms_output.put_line('product not found');
+ when others then
+ dbms_output.put_line(sqlerrm);
+end;
+/
