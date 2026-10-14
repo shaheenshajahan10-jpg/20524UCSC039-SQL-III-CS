@@ -1,0 +1,23 @@
+create or replace procedure display_order
+(
+ p_order_id number
+)
+is
+ v_product varchar2(100);
+ v_quantity number;
+begin
+ select p.product_name, o.quantity
+ into v_product, v_quantity
+ from orders o
+ join products p
+ on o.product_id = p.product_id
+ where o.order_id = p_order_id;
+ dbms_output.put_line('product: ' || v_product);
+ dbms_output.put_line('quantity: ' || v_quantity);
+exception
+ when no_data_found then
+ dbms_output.put_line('order not found');
+ when others then
+ dbms_output.put_line('error: ' || sqlerrm);
+end;
+/
