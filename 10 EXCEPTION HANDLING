@@ -1,0 +1,20 @@
+Missing Order
+
+begin
+ display_order(999);
+end;
+/
+
+Missing Product
+
+begin
+ update_inventory(999,5);
+end;
+/
+
+Insufficient Stock
+
+begin
+ update_inventory(101,500);
+end;
+/
