@@ -1,0 +1,21 @@
+create or replace function calculate_order_value(
+ p_order_id number
+)
+return number
+is
+ v_value number;
+begin
+ select o.quantity * p.unit_price
+ into v_value
+ from orders o
+ join products p
+ on o.product_id = p.product_id
+ where o.order_id = p_order_id;
+ return round(v_value,2);
+exception
+ when no_data_found then
+ return 0;
+end;
+/
+select calculate_order_value(1) as order_value
+from dual;
